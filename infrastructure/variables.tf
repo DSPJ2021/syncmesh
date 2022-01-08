@@ -33,8 +33,8 @@ variable "scenario" {
   type    = string
   default = "baseline"
   validation {
-    condition     = contains(["baseline", "syncmesh", "advanced-mongo"], var.scenario)
-    error_message = "Allowed values for scenario are \"syncmesh\", \"advanced-mongo\", or \"baseline\"."
+    condition     = contains(["baseline", "syncmesh", "advanced-mongo", "distributed-gundb"], var.scenario)
+    error_message = "Allowed values for scenario are \"syncmesh\", \"advanced-mongo\", \"distributed-gundb\" or \"baseline\"."
   }
 }
 variable "test_client_repetitions" {

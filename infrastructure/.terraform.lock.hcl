@@ -2,39 +2,42 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/hashicorp/external" {
-  version = "2.1.0"
+  version = "2.2.0"
   hashes = [
-    "h1:X2gljqoAONRWjDeA+6eLIRt4pDS8QNRZZGhYIGS5Y14=",
-    "h1:wbtDfLeawmv6xVT1W0w0fctRCb4ABlaD3JTxwb1jXag=",
-    "zh:0d83ffb72fbd08986378204a7373d8c43b127049096eaf2765bfdd6b00ad9853",
-    "zh:7577d6edc67b1e8c2cf62fe6501192df1231d74125d90e51d570d586d95269c5",
-    "zh:9c669ded5d5affa4b2544952c4b6588dfed55260147d24ced02dca3a2829f328",
-    "zh:a404d46f2831f90633947ab5d57e19dbfe35b3704104ba6ec80bcf50b058acfd",
-    "zh:ae1caea1c936d459ceadf287bb5c5bd67b5e2a7819df6f5c4114b7305df7f822",
-    "zh:afb4f805477694a4b9dde86b268d2c0821711c8aab1c6088f5f992228c4c06fb",
-    "zh:b993b4a1de8a462643e78f4786789e44ce5064b332fee1cb0d6250ed085561b8",
-    "zh:c84b2c13fa3ea2c0aa7291243006d560ce480a5591294b9001ce3742fc9c5791",
-    "zh:c8966f69b7eccccb771704fd5335923692eccc9e0e90cb95d14538fe2e92a3b8",
-    "zh:d5fe68850d449b811e633a300b114d0617df6d450305e8251643b4d143dc855b",
-    "zh:ddebfd1e674ba336df09b1f27bbaa0e036c25b7a7087dc8081443f6e5954028b",
+    "h1:SaIOC39FTO0oV6P+svQZ4tn5oi0fa1dSUGQ6dPO2mzQ=",
+    "h1:iU5OVMibHvIxbj2Dye1q3aYpjYXS3bKL9iZWZyh+xTg=",
+    "zh:094c3cfae140fbb70fb0e272b1df833b4d7467c6c819fbf59a3e8ac0922f95b6",
+    "zh:15c3906abbc1cd03a72afd02bda9caeeb5f6ca421292c32ddeb2acd7a3488669",
+    "zh:388c14bceeb1593bb16cadedc8f5ad7d41d398197db049dc0871bc847aa61083",
+    "zh:5696772136b6763faade0cc065fafc2bf06493021b943826be0144790fae514a",
+    "zh:6427c693b1b750644d5b633395e54617dc36ae717a531a5cde8cb0246b6593ca",
+    "zh:7196d9845eeffa3158f5e3067bf8b7ad489490aa26d29e2da1ad4c8924463469",
+    "zh:78d5eefdd9e494defcb3c68d282b8f96630502cac21d1ea161f53cfe9bb483b3",
+    "zh:8850d3ce9e5f5776b9349890ce4e2c4056defe16ed741dc845045942a6d9e025",
+    "zh:a2c6fc6cf087b35ebd6b6f20272ed32d4217ea9936c1dd630baa46d86718a455",
+    "zh:ac709be4ea5c9a6e1ab80e864d24cd9f8e6aaea29fb5dbe1de0897e2e86c3c17",
+    "zh:dcf806f044801fae5b21ae2754dc3c19c68e458d4584965752ce49be75305ff5",
+    "zh:f875b34be86c3439899828978638ef7e2d41a9e5e32397858a0c31daeaa1abc2",
   ]
 }
 
 provider "registry.terraform.io/hashicorp/google" {
-  version     = "3.53.0"
-  constraints = "3.53.0, ~> 3.53"
+  version     = "4.5.0"
+  constraints = "4.5.0"
   hashes = [
-    "h1:0MYwK1KRNCc9lfF8vV9gDEuaylwEfSPws7ZJbLwY2FE=",
-    "zh:1408365b5f2ae508fce9b446bb9dbaf044aec81fa4c36fff39c2511b179bcc56",
-    "zh:1d53e978065feb6278bc8c88a70c3df7599c3b8bbcd77765bcd842a83bce6686",
-    "zh:5173a92249c8d06d0d2beca0e328df6e956becd789ebae9a064f022151415b8f",
-    "zh:5bd2ee6cd6baf2cb429f82140cbb5e6c90362b0ef4edaf63df30520e01507374",
-    "zh:65670355fddde75bfadc088627e2700dc14054a63aa5434d2759e7fe43b989c6",
-    "zh:97d4382855c50a2077d3ecd241a02324b8ba2cb8b8c76f8f896c40189260f6c1",
-    "zh:9a18ad92e062dcd2ef72ed9021d5827326a2fc13c2c442c54baf6a9298035873",
-    "zh:b4941a0f47f05c965af42821d51748ac326aea2843b123663dd50f7075fa1956",
-    "zh:f40bbb7046dfcd12ddef175acb1cfc4a8ae082f56a24ba413f0719747789915b",
-    "zh:f60769112a2e36beb762dc7f31916f818b5cacfb35d7d8ddeb40ea6bf8690e9e",
+    "h1:H3Y3Kwa0rCu8LVVQ7UeL3v3xZy0KJw6yWlKQbwQ7MS0=",
+    "h1:MWHx6G+emVNvPyxxLCpEEco5F7eoRzX9Tp9lbtO/PmI=",
+    "zh:0db8d3e7cc68ddd70a75c72334908b60a875062162c5e8a78bb9e7c0060def64",
+    "zh:2ed5ac0301e6382589353402b11aed8ded08bfad425016a508523e18e8766424",
+    "zh:3abcaf9439bc60b7666cfc257af8bbe555a90b9692972bc46e84b2d96189bf63",
+    "zh:4d9da72347c0bc8dd34fa40ae5c26c7c862dc633e7a5da89564f8fa29d950a49",
+    "zh:5d4d85fb7318df9572e273ee3808c009db7856165a3f1d684e635cec67e4b0ef",
+    "zh:5eac81865b2e1467e2f54e31f8766b098baee9d86e9eeda0f9608f9dbf1863b9",
+    "zh:68c5095136b810a3b80d8aa698252eea4f391500904e4717f5b735f60e04388b",
+    "zh:99c584e796068899cc217d8ecb2204684f851b091a4ab8442e0d9186074f54ca",
+    "zh:a64e291acdd8d61c456073c91abe6b578760ee4526258d416aa5daaa3ed651b3",
+    "zh:acb7844d2a9bac8213764d755fdaeb64e96b50bf11381a66e0300bc4b1aa8040",
+    "zh:f294fd86cfeeee4bef2de31afd7af608d1c7f3f9e35f74127c39b02f58addc4c",
   ]
 }
 

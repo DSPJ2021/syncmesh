@@ -47,3 +47,9 @@ ips.txt
 # python
 venv/
 __pycache__
+
+
+# Node
+
+node_modules
+*.tmp

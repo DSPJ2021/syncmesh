@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "3.53"
+      version = "4.5.0"
     }
   }
 }
@@ -571,7 +571,8 @@ EOF
 }
 
 resource "google_project_iam_binding" "log-writer-bigquery" {
-  role = "roles/bigquery.dataEditor"
+  role    = "roles/bigquery.dataEditor"
+  project = var.project
 
   members = [
     google_logging_project_sink.sink.writer_identity,
@@ -597,6 +598,8 @@ resource "google_bigquery_dataset" "dataset" {
 
 resource "google_storage_bucket" "bucket" {
   name          = "${local.name_prefix}-log-bucket"
+  project       = var.project
+  location      = local.nodes[0].region
   force_destroy = true
 }
 
