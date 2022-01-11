@@ -20,7 +20,7 @@ jobs:
       max-parallel: 3
       fail-fast: false
       matrix:
-        scenario: ["baseline", "syncmesh", "advanced-mongo"]
+        scenario: ["baseline", "syncmesh", "advanced-mongo", "distributed-gundb"]
         latency: ["with-latency"] #, without-latency]
         node_count: [3] #, 6]
     defaults:
