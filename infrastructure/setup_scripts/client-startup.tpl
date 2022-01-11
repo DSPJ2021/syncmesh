@@ -25,7 +25,7 @@ pip install requests
 
 cat > nodes.txt <<EOF
 %{ for instance in instances ~}
-${instance.network_interface.0.network_ip}:8080
+${instance.network_interface.0.network_ip}
 %{ endfor ~}
 EOF
 
