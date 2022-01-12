@@ -1,10 +1,24 @@
 const Gun = require('gun');
 const fs = require('fs');
 const { performance } = require('perf_hooks');
+
+const peers = fs.readFileSync('nodes.txt').toString().replace(/\r\n/g, '\n').split('\n');
+
 const gun = Gun({
-  peers: ['http://35.203.41.11:8080/gun', 'http://35.236.172.109:8080/gun', 'http://34.88.86.182:8080/gun'],
+  peers: peers.map((peer) => 'http://' + peer + ':8080/gun'),
 });
-// gun.get("sensors").get("sensor-1").on(test => {console.log(Object.keys(test).length)}, {wait: 1})
+
+// Get Args
+const args = process.argv.slice(2);
+// node receive.js <mode:collect/aggregate> <intervalBegin:ISODate> <intervalEnd:ISODate>
+// node receive.js collect 2019-10-01T00:00:00Z 2019-10-02T00:00:00Z
+
+const startDate = new Date(args[1]);
+const endDate = new Date(args[2]);
+console.log('startDate', startDate);
+console.log('endDate', endDate);
+
+// For the distributed database there is no difference between the aggregate and collect mode, as both need the data locally.
 
 // Interval check in ms
 interval = 100;
@@ -37,126 +51,118 @@ getData(
     console.log(sensors_data);
     sensors = Object.keys(removeMetaData(sensors_data));
     sensors.forEach((sensor) => {
-      sensor_datapoints = {};
+      // Get datapoint_count
       getData(
-        sensor,
+        sensor + '-datapointcount',
         (data) => {
-          sensor_datapoints[sensor] = removeMetaData(data);
-          console.log(sensor, Object.keys(data).length);
-        },
-        14000
-      );
-    });
+          datapointcount = removeMetaData(data);
+          console.log(sensor, datapointcount.count);
+          console.log(sensor + 'datapointcount', Object.keys(data).length);
+          sensor_datapoints = {};
+          getData(
+            sensor,
+            (data) => {
+              sensor_datapoints[sensor] = removeMetaData(data);
+              console.log(sensor, Object.keys(data).length);
+            },
+            datapointcount.count
+          );
 
-    // Check if all data points have been loaded before continuing
-    let checkDataPoints = () => {
-      setTimeout(() => {
-        console.log('check sensor points', Object.keys(sensor_datapoints).length);
-        if (Object.keys(sensor_datapoints).length >= sensors.length) {
-          timer('sensors_datapoints');
-          console.log('loaded sensor points');
-          retrieved_sensor_data_points = {};
-          check_loaded_points = {};
-          sensors.forEach((sensor) => {
-            retrieved_sensor_data_points[sensor] = {};
-            Object.keys(sensor_datapoints[sensor]).forEach((key) => {
-              getData(
-                key,
-                (data) => {
-                  retrieved_sensor_data_points[sensor][key] = data;
-                  //   console.log(key, data);
-                },
-                1
-              );
-            });
-          });
-          let checkForRetrievedDataPoints = () => {
+          // Check if all data points have been loaded before continuing (the list of datapoints)
+          let checkDataPoints = () => {
             setTimeout(() => {
-              console.log('retrieved data points');
+              console.log('check sensor points', Object.keys(sensor_datapoints).length);
+              if (Object.keys(sensor_datapoints).length >= sensors.length) {
+                timer('sensors_datapoints');
+                console.log('loaded sensor points');
+                retrieved_sensor_data_points = {};
+                check_loaded_points = {};
+                sensors.forEach((sensor) => {
+                  retrieved_sensor_data_points[sensor] = {};
+                  Object.keys(sensor_datapoints[sensor])
+                    .filter((datapointId) => {
+                      // Datapoint format <sensor>-<timestamp>, e.g. sensor-1-2017-07-11T06:54:45
+                      // To accomodate more than 9 sensor we find the index
+                      let date = new Date(datapointId.slice(datapointId.indexOf('-', 7) + 1));
+                      // Retrieve data point if in time interval
+                      if (date > startDate && date < endDate) {
+                        return true;
+                      } else {
+                        delete sensor_datapoints[sensor][datapointId];
+                        // Hacky way of removing datapoints that are not needed so we don't have to wait for retrieval
+                        return false;
+                      }
+                    })
+                    .forEach((key) => {
+                      getData(
+                        key,
+                        (data) => {
+                          retrieved_sensor_data_points[sensor][key] = data;
+                          // console.log(key, data);
+                        },
+                        1
+                      );
+                    });
+                });
 
-              sensors.forEach((sensor) => {
-                console.log(
-                  sensor,
-                  Object.keys(retrieved_sensor_data_points[sensor]).length,
-                  '/',
-                  Object.keys(sensor_datapoints[sensor]).length
-                );
-                if (
-                  Object.keys(retrieved_sensor_data_points[sensor]).length >=
-                  Object.keys(sensor_datapoints[sensor]).length - 1
-                ) {
-                  check_loaded_points[sensor] = true;
-                }
-              });
+                // Check if the points data have been loaded before continuing (the content)
+                let checkForRetrievedDataPoints = () => {
+                  setTimeout(() => {
+                    console.log('retrieved data points');
 
-              console.log(check_loaded_points);
-              if (Object.keys(check_loaded_points).length >= sensors.length) {
-                timer('sensors_datapoints_data');
-                console.log('all data points loaded');
-                exit();
-              } else {
+                    sensors.forEach((sensor) => {
+                      console.log(
+                        sensor,
+                        Object.keys(retrieved_sensor_data_points[sensor]).length,
+                        '/',
+                        Object.keys(sensor_datapoints[sensor]).length
+                      );
+                      if (
+                        Object.keys(retrieved_sensor_data_points[sensor]).length >=
+                        Object.keys(sensor_datapoints[sensor]).length - 1
+                      ) {
+                        check_loaded_points[sensor] = true;
+                      }
+                    });
+
+                    console.log(check_loaded_points);
+                    if (Object.keys(check_loaded_points).length >= sensors.length) {
+                      timer('sensors_datapoints_data');
+                      console.log('all data points loaded');
+                      exit();
+                    } else {
+                      checkForRetrievedDataPoints();
+                    }
+                  }, 1000);
+                };
                 checkForRetrievedDataPoints();
+              } else {
+                checkDataPoints();
               }
             }, 1000);
           };
-          checkForRetrievedDataPoints();
-        } else {
           checkDataPoints();
-        }
-      }, 1000);
-    };
-    checkDataPoints();
+        },
+        1
+      );
+    });
   },
   3
 );
 
 function exit() {
   fs.rmdirSync('./radata', { recursive: true });
+  fs.readdirSync('.').map((e) => {
+    if (e.endsWith('.tmp')) {
+      fs.unlinkSync(e);
+    }
+  });
   process.exit();
 }
-//   test = gun.get('sensors').once((sensors) => {
-//     if (sensors == undefined) {
-//       console.log('no sensors');
-//       process.exit();
-//       return;
-//     }
-//     console.log(sensors);
-//     sensors = Object.keys(sensors._['>']);
-//     sensor_data = {};
-//     sensor_count = {};
-//
-//   });
-//   });
 
 function timer(lap) {
   if (lap) console.log(`${lap} in: ${(performance.now() - timer.prev).toFixed(3)}ms`);
   timer.prev = performance.now();
-}
-
-function write_data(data, sensor) {
-  //   console.log(data);
-  const filename = 'out/output-' + sensor + '.csv';
-  data = data.sort((a, b) => a.test - b.test);
-  fs.writeFile(filename, extractAsCSV(data), (err) => {
-    if (err) {
-      console.log('Error writing to csv file', err);
-    } else {
-      console.log(`saved as ${filename}`);
-    }
-  });
-}
-
-function extractAsCSV(data) {
-  const header = Object.keys(data[0]).join(',');
-  const rows = data
-    .map((data) =>
-      Object.keys(data)
-        .map((key) => data[key])
-        .join(',')
-    )
-    .join('\n');
-  //   console.log(rows);
-  return header + '\n' + rows;
 }
 
 const removeMetaData = (o) => {
