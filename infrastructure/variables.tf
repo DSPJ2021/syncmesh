@@ -60,6 +60,17 @@ variable "test_mongo_version" {
   description = "Mongo Version"
 }
 
+variable "test_node_version" {
+  type        = string
+  default     = "14"
+  description = "Node Version"
+}
+
+variable "test_gundb_version" {
+  type        = string
+  default     = "0.2020.1235"
+  description = "GUNDB Version"
+}
 
 
 variable "ssh_keys" {

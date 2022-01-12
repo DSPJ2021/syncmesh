@@ -28,12 +28,13 @@ queryDataCollect() {
 for i in $(seq $REPETITIONS)
 do
     # Query Data
-    ssh -o StrictHostKeyChecking=no $CLIENT_IP "node receive.js --mode=collect --from='$1' --to='2017-07-31T23:59:59Z'<<'EOF'
+    /usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP "cd /; sudo node test.py collect $1 2017-07-31T23:59:59Z<<'EOF'
     $COMMAND
 EOF
 " 1> /dev/null
 echo "Finished Request"
 done
+echo '\n' >> collect.timings
 }
 
 queryDataAggregate() {
@@ -41,12 +42,13 @@ queryDataAggregate() {
 for i in $(seq $REPETITIONS)
 do
     # Query Data
-    ssh -o StrictHostKeyChecking=no $CLIENT_IP "node receive.js aggregate '$1' '2017-07-31T23:59:59Z'<<'EOF'
+    /usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP "cd /; sudo node test.py aggregate $1 2017-07-31T23:59:59Z<<'EOF'
     $COMMAND
 EOF
 "
-echo "Finished Mongo Request"
+echo "Finished Request"
 done
+echo '\n' >> aggregate.timings
 }
 
 

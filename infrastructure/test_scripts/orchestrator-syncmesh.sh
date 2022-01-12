@@ -21,42 +21,50 @@ seperate
 # Collect
 echo "Scenario: Collect - 1 day"
 COMMAND=
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-31T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-31T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> collect.timings
 
 seperate
 
 echo "Scenario: Collect - 7 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-24T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-24T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> collect.timings
 
 seperate
 
 echo "Scenario: Collect - 14 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-17T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-07-17T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> collect.timings
 
 seperate
 
 echo "Scenario: Collect - 30 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-06-30T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "collect" --startTime "2017-06-30T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> collect.timings
 
 seperate
 
 # Aggregate 
 echo "Scenario: Aggregate - 1 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-31T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-31T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> aggregate.timings
 
 seperate
 
 echo "Scenario: Aggregate - 7 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-24T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-24T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> aggregate.timings
 
 seperate
 
 echo "Scenario: Aggregate - 14 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-17T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-07-17T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> aggregate.timings
 
 seperate
 
 echo "Scenario: Aggregate - 30 day"
-ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-06-30T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+/usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP 'python3 /test.py --repetitions '$REPETITIONS' --requestType "aggregate" --startTime "2017-06-30T00:00:00Z" --endTime "2017-07-31T23:59:59Z"'
+echo '\n' >> aggregate.timings
 
 seperate

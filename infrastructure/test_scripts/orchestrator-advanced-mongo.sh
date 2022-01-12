@@ -35,12 +35,13 @@ EOF
 for i in $(seq $REPETITIONS)
 do
     # Query Data
-    ssh -o StrictHostKeyChecking=no $CLIENT_IP "mongo --networkMessageCompressors snappy --host $SERVER_IP:$PORT <<'EOF'
+    /usr/bin/time -ao collect.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP "mongo --networkMessageCompressors snappy --host $SERVER_IP:$PORT <<'EOF'
     $COMMAND
 EOF
 " 1> /dev/null
 echo "Finished Mongo Request"
 done
+echo '\n' >> collect.timings
 }
 
 queryDataAggregate() {
@@ -69,12 +70,13 @@ EOF
 for i in $(seq $REPETITIONS)
 do
     # Query Data
-    ssh -o StrictHostKeyChecking=no $CLIENT_IP "mongo --networkMessageCompressors snappy --host $SERVER_IP:$PORT <<'EOF'
+    /usr/bin/time -ao aggregate.timings -f '%E' ssh -o StrictHostKeyChecking=no $CLIENT_IP "mongo --networkMessageCompressors snappy --host $SERVER_IP:$PORT <<'EOF'
     $COMMAND
 EOF
 "
 echo "Finished Mongo Request"
 done
+echo '\n' >> aggregate.timings
 }
 
 

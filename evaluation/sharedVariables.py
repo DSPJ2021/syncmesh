@@ -11,7 +11,7 @@ ip_seperator = "92.60.39.199"
 
 allPreKnownServers = [ip_client, ip_server]
 experiments = ["experiment-baseline-with-latency-3", "experiment-syncmesh-with-latency-3",
-               "experiment-advanced-mongo-with-latency-3", "experiment-syncmesh-with-latency-6", "experiment-baseline-with-latency-6", "experiment-advanced-mongo-with-latency-6"]
+               "experiment-advanced-mongo-with-latency-3", "experiment-distributed-gundb-with-latency-3", "experiment-syncmesh-with-latency-6", "experiment-baseline-with-latency-6", "experiment-advanced-mongo-with-latency-6", "experiment-distributed-gundb-with-latency-6"]
 
 
 def loadData(file):

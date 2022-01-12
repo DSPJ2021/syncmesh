@@ -103,5 +103,7 @@ while read internalIP; do
     scp $internalIP:/capture.pcap /tmp/captures/$internalIP.pcap
 done < /server.txt
 
+mv *.timings /tmp/captures/
+
 apt install zip -y
 cd /tmp/captures && zip -r /captures.zip ./*
