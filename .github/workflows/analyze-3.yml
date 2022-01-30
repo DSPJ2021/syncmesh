@@ -51,9 +51,7 @@ jobs:
           path: evaluation/data
 
       - name: Set up Python 
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10.1'         
+        uses: actions/setup-python@v2       
 
       - name: Install dependencies
         working-directory: evaluation
