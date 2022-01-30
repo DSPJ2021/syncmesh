@@ -7,12 +7,23 @@ on:
       node_count_input:
         description: 'Node Count'     
         required: true
+        type: choice
         default: '3'
         options: 
         - '3'
         - '6'
         - '9'
         - '12'
+      #parallel_input:
+      #  description: 'Max Parallel Jobs'     
+      #  required: true
+      #  type: Number
+      #  default: 1
+      #  options: 
+      #  - '1'
+      #  - '2'
+      #  - '3'
+      #  - '4'
 
 jobs:
   terraform:
