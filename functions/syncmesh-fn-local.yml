@@ -6,7 +6,7 @@ functions:
   syncmesh-fn:
     lang: golang-http
     handler: ./syncmesh-fn
-    image: justdeko/syncmesh-fn:latest
+    image: danielhabenicht/syncmesh-fn:latest
     build_args:
       GO111MODULE: on
     write_debug: true

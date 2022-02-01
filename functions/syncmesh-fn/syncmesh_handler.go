@@ -15,6 +15,8 @@ func handleSyncMeshRequest(request SyncMeshRequest, ownResponse string) *bytes.B
 		startAggregating(request, ownResponse, b)
 	case "collect":
 		startCollecting(request, ownResponse, b)
+	case "function":
+		startFunction(request, ownResponse, b)
 	}
 	return b
 }
@@ -79,6 +81,45 @@ func startAggregating(request SyncMeshRequest, ownResponse string, b *bytes.Buff
 	finalAverages := calculateAverages(averagesList)
 	outputJSON, _ := json.Marshal(finalAverages)
 	err = json.NewEncoder(b).Encode(json.RawMessage(string(outputJSON)))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+// start request to local faas function
+func startFunction(request SyncMeshRequest, ownResponse string, b *bytes.Buffer) {
+
+	// make a POST request to faas function
+	req, err := http.NewRequest("POST", "http://gateway:8080/function/test", bytes.NewBuffer([]byte(ownResponse)))
+	if err != nil {
+		return
+	}
+	// req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	// read the response
+	body, err := unzipResponse(resp)
+	if err != nil {
+		return
+	}
+	err = resp.Body.Close()
+	if err != nil {
+		return
+	}
+
+	// convert response to response struct
+	// out := AveragesResponse{}
+	// err = json.Unmarshal(body, &out)
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return
+	// }
+
+	// outputJSON, _ := json.Marshal(body)
+	err = json.NewEncoder(b).Encode(json.RawMessage(string(body)))
 	if err != nil {
 		log.Fatal(err)
 	}
